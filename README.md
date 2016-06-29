@@ -1,4 +1,4 @@
-# cinema-project
+# Cinema Project
 A C++ program for a cinema.
 
 You can:
