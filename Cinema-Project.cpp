@@ -1,39 +1,25 @@
 
 /*
-Project: Theatre
+Project: Cinema
 Team members:
-Sherif Mohamed Abdel-Naby 20150309
-Khaled Ahmed Hamed 20150101
-Mohamed Ezzat 20150216
-Mohamed Magdy 20150221
-Nada Gamal Mohamed 20150277
+	Sherif Mohamed Abdel-Naby 20150309
+	Khaled Ahmed Hamed 20150101
+	Mohamed Ezzat 20150216
+	Mohamed Magdy 20150221
+	Nada Gamal Mohamed 20150277
 */
 
 #include <iostream>
 #include <iomanip>
+#include "cinema.h"
 using namespace std;
-
-int columns = 5, rows = 22, total_seats = columns * rows;
-int class_no = 3;
-int *classes_rows = new int[class_no + 1]{ 0,4,8,10 };
-double *classes_price = new double[class_no + 1]{ 0,50,15,10 };
-bool *cinemaSeats = new bool[total_seats];
-int *seatsAvailable = new int[class_no + 1]{ 0,4 * columns,8 * columns,10 * columns };
-
-void clearSeats();
-void showAllSeats();
-void showClassSeats(int classX);
-bool reserveSeat(int seat_no, int classX);
-bool cancelSeat(int seat_no, int classX);
-int classSeats(int classX);
-void showAbout();
 
 int main() {
 	clearSeats();
 	while (true)
 	{
 		int choice;
-		cout << "\nPlease select an Option:\n1: Ticket reservation\n2: Ticket Cancellation\n3: Reset theater reservations\n4: Show Theater map\n5: Exit\n\n\n";
+		cout << "\nPlease select an Option:\n1: Ticket reservation\n2: Ticket Cancellation\n3: Reset all reservations\n4: Show cinema map\n5: Exit\n\n\n";
 		cout << "8: About\n9 : Settings\n";
 		cin >> choice;
 		int classX, seatX, tkt_number, cancelled = 0;
@@ -41,8 +27,7 @@ int main() {
 		system("cls");
 		switch (choice)
 		{
-		case 1:
-
+		case 1: // Ticket reservation
 			cout << "Which class do you want ?" << endl;
 			cin >> classX;
 			system("cls");
@@ -70,7 +55,7 @@ int main() {
 			else
 				cout << "Sorry, that class doesn't have enough seats.\nReturning to main menu..." << endl;
 			break;
-		case 2:
+		case 2: // Ticket Cancellation
 			cancelled = 0;
 			escape = false;
 			cout << "In which class do you want to cancel the reservation?" << endl;
@@ -95,19 +80,19 @@ int main() {
 			}
 			cout << fixed << setprecision(2) << "Total money returned: $" << classes_price[classX] * cancelled << endl;
 			break;
-		case 3:
+		case 3: // Reset all reservations (cancel them all)
 			cout << "RESETING...\nTheater reservation has been reset\nReturning to main menu..." << endl;
 			clearSeats();
 			break;
-		case 4:
+		case 4: // Show cinema map
 			showAllSeats();
 			break;
-		case 5:
+		case 5: // Exit
 			return 0;
-		case 8:
+		case 8: // About
 			showAbout();
 			break;
-		case 9:
+		case 9: // Settings
 			while (true)
 			{
 				system("cls");
@@ -162,93 +147,11 @@ int main() {
 				}
 			}
 			break;
-		default:
+		default: // Wrong number entered
 			cout << "Wrong Choice!\nPlease try again";
 			break;
 		}
 		cin.ignore();cin.get();
 		system("cls");
 	}
-}
-
-
-void clearSeats()
-{
-	for (int i = 0; i <= total_seats; i++)
-		cinemaSeats[i] = false;
-}
-
-void showAllSeats()
-{
-	cout << "   -------------THEATER-------------\n----------------------------------------" << endl << endl;
-	for (int i = 1; i <= total_seats; i++)
-	{
-		if (cinemaSeats[i])
-			cout << setw(5) << i << ",X" << "\t";
-		else
-			cout << setw(5) << i << ",O" << "\t";
-		if (!(i % columns)) cout << endl;
-	}
-	cout << "----------------------------------------\n    -------------BACK-------------" << endl;
-}
-
-int classSeats(int classX)
-{
-	int sum = 0;
-	for (int i = classX; i >= 0; i--)
-		sum += classes_rows[i];
-	return sum * columns;
-}
-
-void showClassSeats(int classX)
-{
-	int from = classSeats(classX - 1) + 1;
-	int to = classSeats(classX);
-	cout << "   -------------THEATER-------------\n----------------------------------------" << endl << endl;
-	for (int i = from; i <= to; i++)
-	{
-		if (cinemaSeats[i])
-			cout << setw(5) << i << ",X" << "\t";
-		else
-			cout << setw(5) << i << ",O" << "\t";
-		if (!(i % columns)) cout << endl;
-	}
-	cout << "----------------------------------------\n    -------------BACK-------------" << endl;
-
-}
-
-bool reserveSeat(int seat_no, int classX)
-{
-	if (!cinemaSeats[seat_no] && seat_no > classSeats(classX - 1) && seat_no <= classSeats(classX))
-	{
-		cinemaSeats[seat_no] = true;
-		seatsAvailable[classX]--;
-		return true;
-	}
-	return false;
-}
-
-bool cancelSeat(int seat_no, int classX)
-{
-	if (cinemaSeats[seat_no] && seat_no > classSeats(classX - 1) && seat_no <= classSeats(classX))
-	{
-		cinemaSeats[seat_no] = false;
-		seatsAvailable[classX]++;
-		return true;
-	}
-	return false;
-}
-
-void showAbout() {
-	cout << endl;
-	cout << "||------------------------------------||" << endl;
-	cout << "||----------THEATRE PROJECT-----------||" << endl;
-	cout << "||------------------------------------||" << endl;
-	cout << "||--------    KHALED HAMED    --------||" << endl;
-	cout << "||--------  SHERIF ABDEL NABY --------||" << endl;
-	cout << "||--------   MUHAMMED MAGDY   --------||" << endl;
-	cout << "||--------    NADA MOHAMED    --------||" << endl;
-	cout << "||--------   MOHAMED EZZAT    --------||" << endl;
-	cout << "||------------------------------------||" << endl << endl;
-	cout << "Press any key to return to main menu" << endl;
 }
