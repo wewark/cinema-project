@@ -89,7 +89,7 @@ bool cancelSeat(int seat_no, int classX)
 void showAbout() {
 	cout << endl;
 	cout << "||------------------------------------||" << endl;
-	cout << "||----------THEATRE PROJECT-----------||" << endl;
+	cout << "||-----------CINEMA PROJECT-----------||" << endl;
 	cout << "||------------------------------------||" << endl;
 	cout << "||--------    KHALED HAMED    --------||" << endl;
 	cout << "||--------  SHERIF ABDEL NABY --------||" << endl;
